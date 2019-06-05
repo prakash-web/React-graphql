@@ -5,33 +5,35 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import './App.css';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props){
     super(props);
-    this.state = {rows: [{
-      "instanceId": "instance1_1",
-      "groupName": "api"
-    },
-    {
-      "instanceId": "instance2_2",
-      "groupName": "api"
-    },
-    {
-      "instanceId": "instance3_3",
-      "groupName": "api"
-    },
-    {
-      "instanceId": "instance4_4",
-      "groupName": "api"
-    },
-    {
-      "instanceId": "instance5_5",
-      "groupName": "api"
-    }]}
+    this.state = {rows: []}
   }
   
+  componentDidMount() {
+    axios({
+      url: 'https://i9x5u6sk1k.execute-api.us-east-1.amazonaws.com/dev/graphql',
+      method: 'post',
+      data: {
+        query: `
+          query {
+            machines {
+              instanceId
+              groupName
+            }
+          }
+        `
+      }
+    }).then((result) => {
+      this.setState({rows: result.data.data.machines});
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   render(){
     const {rows}  = this.state;
     return(
