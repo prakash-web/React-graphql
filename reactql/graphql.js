@@ -1,5 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server-lambda');
 
+// sample data for machines
 const machines = [
   {
     instanceId: 'instance1_1',
@@ -23,6 +24,7 @@ const machines = [
   },
 ];
 
+// Constructing a schema, using GraphQL schema language
 const typeDefs = gql`
   type Machine {
     instanceId: String
@@ -34,6 +36,7 @@ const typeDefs = gql`
   }
 `;
 
+// Provide resolver functions for schema fields
 const resolvers = {
   Query: {
     machines: () => machines,

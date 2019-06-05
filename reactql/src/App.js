@@ -8,11 +8,14 @@ import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 
 class App extends Component {
+
+  //initial state object
   constructor(props){
     super(props);
     this.state = {rows: []}
   }
   
+  //making request for getting the data
   componentDidMount() {
     axios({
       url: 'https://i9x5u6sk1k.execute-api.us-east-1.amazonaws.com/dev/graphql',
@@ -30,6 +33,7 @@ class App extends Component {
     }).then((result) => {
       this.setState({rows: result.data.data.machines});
     }).catch(err => {
+      //handling error case
       console.log(err);
     });
   }
